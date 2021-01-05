@@ -11,8 +11,8 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-class Square extends React.Component {
-  render() {
+// replacing class Square with funciton for simplification purposes
+function Square(props) {
     return (
       /*  Calls upon the onClick event handler which runs the onClick
        function which is defined in the parent class Board. 
@@ -20,14 +20,13 @@ class Square extends React.Component {
       
       */
         <button 
-        className="square" 
-        onClick={() => this.props.onClick()}>
-          {/* recieve the value from the Board */}
-        {this.props.value}
-     </button>
+          className="square" 
+         onClick={props.onClick}>
+            {/* recieve the value from the Board */}
+            {props.value}
+        </button>
     );
   }
-}
 
 // Board is the parent container from Square
 class Board extends React.Component {
@@ -42,6 +41,7 @@ class Board extends React.Component {
   };
 
 // handle click event for X or O
+// it monitors click changes, copies (slice) its contents and passes the values on to Square
 handleClick(i){
   const squares = this.state.squares.slice();
   squares[i] = 'X';
