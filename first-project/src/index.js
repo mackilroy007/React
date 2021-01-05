@@ -23,8 +23,15 @@ class Square extends React.Component {
   render() {
     return (
       // adding a click event that displays "click"
-      <button className="square" onClick={() => alert('click')}>
-        {this.props.value}
+      // <button className="square" onClick={() => alert('click')}>
+        /* {this.props.value} */
+
+        // onClick displays X
+        <button 
+        className="square" 
+        onClick={() => this.setState({value:'X'})}>
+        {/* listens to the state value */}
+        {this.state.value}
      </button>
     );
   }
