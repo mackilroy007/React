@@ -37,9 +37,25 @@ class Square extends React.Component {
   }
 }
 
+// Board is the parent container from Square
 class Board extends React.Component {
+  // initiating a listener on parent level
+  constructor(props){
+    super(props);
+    this.state ={
+      // here all 9 square fields are tracked
+      squares: Array(9).fill(null),
+    }
+  };
   renderSquare(i) {
-    return <Square value={i} />;
+    // return <Square value={i} />;
+
+    // listening to the square state
+    return <Square 
+    value={this.state.squares[i]} 
+    // adding a onClick event for square to call upon for changing "X" or "O"
+    onClick={() => this.handleClick(i)}
+    />;
   }
 
   render() {
