@@ -12,26 +12,18 @@ ReactDOM.render(
 );
 
 class Square extends React.Component {
-  // initializing state and defining default value null
-  constructor(props){
-    super(props);
-    this.state ={
-      value: null,
-    };
-  }
-
   render() {
     return (
-      // adding a click event that displays "click"
-      // <button className="square" onClick={() => alert('click')}>
-        /* {this.props.value} */
-
-        // onClick displays X
+      /*  Calls upon the onClick event handler which runs the onClick
+       function which is defined in the parent class Board. 
+       The Board redirects to the this.handleClick(i) 
+      
+      */
         <button 
         className="square" 
-        onClick={() => this.setState({value:'X'})}>
-        {/* listens to the state value */}
-        {this.state.value}
+        onClick={() => this.props.onClick()}>
+          {/* recieve the value from the Board */}
+        {this.props.value}
      </button>
     );
   }
@@ -39,7 +31,8 @@ class Square extends React.Component {
 
 // Board is the parent container from Square
 class Board extends React.Component {
-  // initiating a listener on parent level
+
+  // initiating a listener on parent level and storing the information within the Board class
   constructor(props){
     super(props);
     this.state ={
@@ -47,6 +40,14 @@ class Board extends React.Component {
       squares: Array(9).fill(null),
     }
   };
+
+// handle click event for X or O
+handleClick(i){
+  const squares = this.state.squares.slice();
+  squares[i] = 'X';
+  this.setState({squares: squares});
+}
+
   renderSquare(i) {
     // return <Square value={i} />;
 
