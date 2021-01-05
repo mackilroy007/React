@@ -12,11 +12,20 @@ ReactDOM.render(
 );
 
 class Square extends React.Component {
+  // initializing state and defining default value null
+  constructor(props){
+    super(props);
+    this.state ={
+      value: null,
+    };
+  }
+
   render() {
     return (
-      <button className="square">
+      // adding a click event that displays "click"
+      <button className="square" onClick={() => alert('click')}>
         {this.props.value}
-      </button>
+     </button>
     );
   }
 }
@@ -33,6 +42,7 @@ class Board extends React.Component {
       <div>
         <div className="status">{status}</div>
         <div className="board-row">
+          {/* content can be "characters" or numbers which are diplayed within the renderSquare(#) */}
           {this.renderSquare(0)}
           {this.renderSquare(1)}
           {this.renderSquare(2)}
