@@ -13,28 +13,28 @@ ReactDOM.render(
 
 // replacing class Square with funciton for simplification purposes
 function Square(props) {
-    return (
-      /*  Calls upon the onClick event handler which runs the onClick
-       function which is defined in the parent class Board. 
-       The Board redirects to the this.handleClick(i) 
-      
-      */
-        <button 
-          className="square" 
-         onClick={props.onClick}>
-            {/* recieve the value from the Board */}
-            {props.value}
-        </button>
-    );
-  }
+  return (
+    /*  Calls upon the onClick event handler which runs the onClick
+     function which is defined in the parent class Board. 
+     The Board redirects to the this.handleClick(i) 
+    
+    */
+    <button
+      className="square"
+      onClick={props.onClick}>
+      {/* recieve the value from the Board */}
+      {props.value}
+    </button>
+  );
+}
 
 // Board is the parent container from Square
 class Board extends React.Component {
 
   // initiating a listener on parent level and storing the information within the Board class
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state ={
+    this.state = {
       // here all 9 square fields are tracked
       squares: Array(9).fill(null),
       // checks which user has its turn (boolen)
@@ -42,34 +42,50 @@ class Board extends React.Component {
     }
   };
 
-// handle click event for X or O
-// it monitors click changes, copies (slice) its contents and passes the values on to Square
-handleClick(i){
-  const squares = this.state.squares.slice();
-  // if true X else O
-  squares[i] = this.state.xIsNext ? 'X' : 'O';
-  // flips the output bewteen X or O
-  this.setState({
-    squares: squares,
-    xIsNext: !this.state.xIsNext,
-  });
+  // handle click event for X or O
+  // it monitors click changes, copies (slice) its contents and passes the values on to Square
+  handleClick(i) {
+    const squares = this.state.squares.slice();
 
-}
+    if(calculateWinner(squares) || squares[i]){
+      return;
+    }
+
+    // if true X else O
+    squares[i] = this.state.xIsNext ? 'X' : 'O';
+    // flips the output bewteen X or O
+    this.setState({
+      squares: squares,
+      xIsNext: !this.state.xIsNext,
+    });
+
+  }
 
   renderSquare(i) {
     // return <Square value={i} />;
 
     // listening to the square state
-    return <Square 
-    value={this.state.squares[i]} 
-    // adding a onClick event for square to call upon for changing "X" or "O"
-    onClick={() => this.handleClick(i)}
+    return <Square
+      value={this.state.squares[i]}
+      // adding a onClick event for square to call upon for changing "X" or "O"
+      onClick={() => this.handleClick(i)}
     />;
   }
 
   render() {
-    // player current turn is X or O
-    const status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+    // checking winner
+    const winner = calculateWinner(this.state.squares);
+    let status;
+    if (winner){
+      // displays the winner
+      status = 'Winner: ' + winner;
+    } else{
+      // player current turn is X or O
+      status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+    }
+
+    
+
 
     return (
       <div>
@@ -117,6 +133,27 @@ ReactDOM.render(
   <Game />,
   document.getElementById('root')
 );
+
+// declaring the winner based on the outcome
+function calculateWinner(squares) {
+  const lines = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+  for (let i = 0; i < lines.length; i++) {
+    const [a, b, c] = lines[i];
+    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+      return squares[a];
+    }
+  }
+  return null;
+}
 
 
 // If you want to start measuring performance in your app, pass a function
