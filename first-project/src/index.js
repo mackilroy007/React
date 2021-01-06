@@ -37,6 +37,8 @@ class Board extends React.Component {
     this.state ={
       // here all 9 square fields are tracked
       squares: Array(9).fill(null),
+      // checks which user has its turn (boolen)
+      xIsNext: true,
     }
   };
 
@@ -44,8 +46,14 @@ class Board extends React.Component {
 // it monitors click changes, copies (slice) its contents and passes the values on to Square
 handleClick(i){
   const squares = this.state.squares.slice();
-  squares[i] = 'X';
-  this.setState({squares: squares});
+  // if true X else O
+  squares[i] = this.state.xIsNext ? 'X' : 'O';
+  // flips the output bewteen X or O
+  this.setState({
+    squares: squares,
+    xIsNext: !this.state.xIsNext,
+  });
+
 }
 
   renderSquare(i) {
@@ -60,7 +68,8 @@ handleClick(i){
   }
 
   render() {
-    const status = 'Next player: X';
+    // player current turn is X or O
+    const status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
 
     return (
       <div>
