@@ -46,7 +46,7 @@ class Board extends React.Component {
   // it monitors click changes, copies (slice) its contents and passes the values on to Square
   handleClick(i) {
     const squares = this.state.squares.slice();
-
+    // prevents a click on a field which allready has had an input 
     if(calculateWinner(squares) || squares[i]){
       return;
     }
@@ -112,6 +112,17 @@ class Board extends React.Component {
 }
 
 class Game extends React.Component {
+// setting up a history of all the game moves
+constructor(props){
+  super(props);
+  this.state ={
+    history: [{
+      squares: Array(9).fill(null),
+    }],
+    xIsNext: true,
+  };
+}
+
   render() {
     return (
       <div className="game">
