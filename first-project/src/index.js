@@ -88,14 +88,17 @@ class Game extends React.Component {
       history: [{
         squares: Array(9).fill(null),
       }],
+      // adding step counter as refernce to call upon for the key={move}
+      stepNumber: 0,
       xIsNext: true,
     };
   }
 
-   // handle click event for X or O
+  // handle click event for X or O
   // it monitors click changes, copies (slice) its contents and passes the values on to Square
   handleClick(i) {
-    const history = this.state.history;
+    // in case we go back n numbers of moves and continue from that point onwards, the prevous saves will all be deleted
+    const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
     const squares = current.squares.slice();
     // prevents a click on a field which allready has had an input 
@@ -110,31 +113,43 @@ class Game extends React.Component {
       history: history.concat([{
         squares: squares,
       }]),
+      stepNumber: history.length,
       xIsNext: !this.state.xIsNext,
     });
 
   }
 
-  
+  // defining jumpTo based upon the stepNumber counter
+  jumpTo(step) {
+    this.setState({
+      stepNumber: step,
+      // make sure the number is even
+      xIsNext: (step % 2) === 0,
+    });
+  }
+
+
 
   render() {
     const history = this.state.history;
-    const current = history[history.length - 1];
+    // render the last move based on stepNumber
+    const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
 
     // adding user history tracking with .map method
-    const moves = history.map((step, move) =>{
+    const moves = history.map((step, move) => {
       const desc = move ?
         'Go to move #' + move :
         'Go to game start';
-      return(
-        <li>
+      return (
+        // defining move as the refercent key
+        <li key={move}>
           <button onClick={() => this.jumpTo(move)}>{desc}</button>
         </li>
       );
     });
 
-    let status; 
+    let status;
     if (winner) {
       status = 'Winner: ' + winner;
     } else {
