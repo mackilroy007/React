@@ -14,7 +14,8 @@ class App extends Component {
       { name: 'Manu', age: 15 },
       { name: 'Alexa', age: 22 }
     ],
-    otherState: 'some other value'
+    otherState: 'some other value',
+    showPersons: false
   }
 
   switchNameHandler = (newName) => {
@@ -38,6 +39,13 @@ class App extends Component {
     })
   }
 
+  // correctly swith the state
+  togglePersonsHandler = () => {
+    const doesShow = this.state.showPersons;
+    // if showPersons is ture, doesShow will be set as false and merge with showPersons
+    this.setState({showPersons: !doesShow});
+  }
+
   render() {
     // defining inline styles
     const styleX = {
@@ -55,18 +63,23 @@ class App extends Component {
         <button
           // applying inline style
           style={styleX}
-          onClick={this.switchNameHandler.bind(this, 'Maximilian')}>Switch Name</button>
+          onClick={this.togglePersonsHandler}>Toggle Persons</button>
+        {/* onClick={this.switchNameHandler.bind(this, 'Maximilian')}>Switch Name</button> */}
         {/* or */}
         {/* <button onClick={ () => this.switchNameHandler('Maximilian')}>Switch Name</button> */}
-        <Person name={this.state.persons[0].name}
-          age={this.state.persons[0].age} />
-        <Person name={this.state.persons[1].name}
-          age={this.state.persons[1].age}
-          // passing methods as props which changes the state in another component that doesn't have acces to the state
-          click={this.switchNameHandler.bind(this, 'Max!!')}
-          changed={this.nameChangedHandler}>My hobbies are: Coding React</Person>
-        <Person name={this.state.persons[2].name}
-          age={this.state.persons[2].age} />
+        {this.state.showPersons ?
+          < div >
+            <Person name={this.state.persons[0].name}
+              age={this.state.persons[0].age} />
+            <Person name={this.state.persons[1].name}
+              age={this.state.persons[1].age}
+              // passing methods as props which changes the state in another component that doesn't have acces to the state
+              click={this.switchNameHandler.bind(this, 'Max!!')}
+              changed={this.nameChangedHandler}>My hobbies are: Coding React</Person>
+            <Person name={this.state.persons[2].name}
+              age={this.state.persons[2].age} />
+          </div> : null
+        }
       </div>
     );
     // this is how it compiles the above text
