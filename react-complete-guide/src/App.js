@@ -31,9 +31,12 @@ class App extends Component {
 
   // deletes the rendered Person component that is clicked on
   deletePersonHandler = (personIndex) => {
-    // point the const person array to the state.persons
-    const persons = this.state.persons;
-    // create new spliced version of the person array
+    // pointer to the original state const person array and copies to the new this.state.persons (old way)
+    // const persons = this.state.persons.slice();
+    // Es 6 way
+    const persons = [...this.state.persons];
+
+    // create new spliced version of the person array 
     persons.splice(personIndex, 1);
     // assign the updated state.persons info to the array persons
     this.setState({ persons: persons });
