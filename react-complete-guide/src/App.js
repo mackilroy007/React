@@ -43,7 +43,7 @@ class App extends Component {
   togglePersonsHandler = () => {
     const doesShow = this.state.showPersons;
     // if showPersons is ture, doesShow will be set as false and merge with showPersons
-    this.setState({showPersons: !doesShow});
+    this.setState({ showPersons: !doesShow });
   }
 
   render() {
@@ -57,19 +57,22 @@ class App extends Component {
     }
 
     let persons = null;
-    if (this.state.showPersons){
+    if (this.state.showPersons) {
       persons = (
         < div >
-            <Person name={this.state.persons[0].name}
-              age={this.state.persons[0].age} />
-            <Person name={this.state.persons[1].name}
-              age={this.state.persons[1].age}
-              // passing methods as props which changes the state in another component that doesn't have acces to the state
-              click={this.switchNameHandler.bind(this, 'Max!!')}
-              changed={this.nameChangedHandler}>My hobbies are: Coding React</Person>
-            <Person name={this.state.persons[2].name}
-              age={this.state.persons[2].age} />
-          </div> 
+          <Person
+            name={this.state.persons[0].name}
+            age={this.state.persons[0].age} />
+          <Person
+            name={this.state.persons[1].name}
+            age={this.state.persons[1].age}
+            // passing methods as props which changes the state in another component that doesn't have acces to the state
+            click={this.switchNameHandler.bind(this, 'Max!!')}
+            changed={this.nameChangedHandler}>My hobbies are: Coding React</Person>
+          <Person
+            name={this.state.persons[2].name}
+            age={this.state.persons[2].age} />
+        </div>
       );
     }
 
@@ -81,22 +84,23 @@ class App extends Component {
           // applying inline style
           style={styleX}
           onClick={this.togglePersonsHandler}>Toggle Persons</button>
+          
         {/* onClick={this.switchNameHandler.bind(this, 'Maximilian')}>Switch Name</button> */}
         {/* or */}
         {/* <button onClick={ () => this.switchNameHandler('Maximilian')}>Switch Name</button> */}
         {/* this.state.showPersons ? */
-          {/* < div >
-          <Person name={this.state.persons[0].name}
-            age={this.state.persons[0].age} />
-          <Person name={this.state.persons[1].name}
-            age={this.state.persons[1].age}
-            // passing methods as props which changes the state in another component that doesn't have acces to the state
-            click={this.switchNameHandler.bind(this, 'Max!!')}
-            changed={this.nameChangedHandler}>My hobbies are: Coding React</Person>
-          <Person name={this.state.persons[2].name}
-            age={this.state.persons[2].age} />
-        </div>  */}
-          /* : null */
+        //   { < div >
+        //   <Person name={this.state.persons[0].name}
+        //     age={this.state.persons[0].age} />
+        //   <Person name={this.state.persons[1].name}
+        //     age={this.state.persons[1].age}
+        //     // passing methods as props which changes the state in another component that doesn't have acces to the state
+        //     click={this.switchNameHandler.bind(this, 'Max!!')}
+        //     changed={this.nameChangedHandler}>My hobbies are: Coding React</Person>
+        //   <Person name={this.state.persons[2].name}
+        //     age={this.state.persons[2].age} />
+        // </div>  }
+          //  : null 
         }
         {persons}
       </div>
