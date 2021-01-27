@@ -18,15 +18,25 @@ class App extends Component {
     showPersons: false
   }
 
-  switchNameHandler = (newName) => {
-    // console.log('Was clicked!');
-    this.setState({
-      persons: [
-        { name: newName, age: 28 },
-        { name: 'Manu', age: 25 },
-        { name: 'Alexa', age: 30 }
-      ]
-    })
+  // switchNameHandler = (newName) => {
+  //   // console.log('Was clicked!');
+  //   this.setState({
+  //     persons: [
+  //       { name: newName, age: 28 },
+  //       { name: 'Manu', age: 25 },
+  //       { name: 'Alexa', age: 30 }
+  //     ]
+  //   })
+  // }
+
+  // deletes the rendered Person component that is clicked on
+  deletePersonHandler = (personIndex) => {
+    // point the const person array to the state.persons
+    const persons = this.state.persons;
+    // create new spliced version of the person array
+    persons.splice(personIndex, 1);
+    // assign the updated state.persons info to the array persons
+    this.setState({ persons: persons });
   }
 
   nameChangedHandler = (event) => {
@@ -60,8 +70,9 @@ class App extends Component {
     if (this.state.showPersons) {
       persons = (
         < div >
-          {this.state.persons.map(person => {
+          {this.state.persons.map((person, index) => {
             return <Person
+              click={() => this.deletePersonHandler(index)}
               name={person.name}
               age={person.ate} />
           })}
